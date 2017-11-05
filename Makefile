@@ -12,20 +12,24 @@ clean:
 xb:
 	$(CC) $(CCFLAGS) -c $(SRC_DIR)/xbr.c -o $(BUILD_DIR)/xbr.o
 
-hq4x:
+hq4x: xb
 	$(CC) $(CCFLAGS) -c $(SRC_DIR)/hq4x.c -o $(BUILD_DIR)/hq4x.o
 
-hq3x:
+hq3x: xb
 	$(CC) $(CCFLAGS) -c $(SRC_DIR)/hq3x.c -o $(BUILD_DIR)/hq3x.o
 
-hq2x:
+hq2x: xb
 	$(CC) $(CCFLAGS) -c $(SRC_DIR)/hq2x.c -o $(BUILD_DIR)/hq2x.o
 
-cli: hq2x hq3x hq4x
-	$(CC) $(CCFLAGS) $(PNGFLAGS) -c $(SRC_DIR)/test_app.c -o $(BUILD_DIR)/cli.o
+fixpng:
+	$(CC) $(CCFLAGS) -c $(SRC_DIR)/fixpng.c -o $(BUILD_DIR)/fixpng.o
 
-link: xb hq4x hq3x hq2x cli
-	$(CC) $(CCFLAGS) $(PNGFLAGS) $(wildcard build/*.o) -o bin/hq $(PNGLIBS)
+cli: fixpng hq2x hq3x hq4x
+	$(CC) $(CCFLAGS) $(PNGFLAGS) -c $(SRC_DIR)/test_app.c -o $(BUILD_DIR)/hqcli.o
+
+link: cli
+	$(CC) $(CCFLAGS) $(PNGFLAGS) $(wildcard build/xbr.o build/hq*.o) -o build/hq $(PNGLIBS)
+	$(CC) $(CCFLAGS) $(PNGFLAGS) build/fixpng.o -o build/fixpng $(PNGLIBS)
 
 all: xb hq4x hq3x hq2x cli link
 
