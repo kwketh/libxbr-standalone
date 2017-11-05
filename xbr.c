@@ -48,10 +48,10 @@ static uint32_t pixel_diff(uint32_t x, uint32_t y, const uint32_t *r2y)
     uint32_t yuv1 = r2y[x & 0xffffff];
     uint32_t yuv2 = r2y[y & 0xffffff];
 
-    return (abs((x >> 24) - (y >> 24))) +
-           (abs((yuv1 & YMASK) - (yuv2 & YMASK)) >> 16) +
-           (abs((yuv1 & UMASK) - (yuv2 & UMASK)) >>  8) +
-           abs((yuv1 & VMASK) - (yuv2 & VMASK));
+    return (abs((int)((x >> 24) - (y >> 24)))) +
+           (abs((int)((yuv1 & YMASK) - (yuv2 & YMASK)) >> 16)) +
+           (abs((int)((yuv1 & UMASK) - (yuv2 & UMASK)) >>  8)) +
+           abs((int)((yuv1 & VMASK) - (yuv2 & VMASK)));
 }
 
 #define ALPHA_BLEND_BASE(a, b, m, s) (  (PART_MASK & (((a) & PART_MASK) + (((((b) & PART_MASK) - ((a) & PART_MASK)) * (m)) >> (s)))) \

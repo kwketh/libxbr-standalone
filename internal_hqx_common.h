@@ -49,9 +49,9 @@ static XBR_INLINE uint32_t rgb_to_yuv(const xbr_data *data, uint32_t c)
 
 /* Test if there is difference in color */
 static XBR_INLINE int yuv_diff(uint32_t yuv1, uint32_t yuv2) {
-    return (( abs((yuv1 & Ymask) - (yuv2 & Ymask)) > trY ) ||
-            ( abs((yuv1 & Umask) - (yuv2 & Umask)) > trU ) ||
-            ( abs((yuv1 & Vmask) - (yuv2 & Vmask)) > trV ) );
+    return (( abs((int)((yuv1 & Ymask) - (yuv2 & Ymask))) > trY ) ||
+            ( abs((int)((yuv1 & Umask) - (yuv2 & Umask))) > trU ) ||
+            ( abs((int)((yuv1 & Vmask) - (yuv2 & Vmask))) > trV ) );
 }
 
 static XBR_INLINE int Diff(const xbr_data *data, uint32_t c1, uint32_t c2)

@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 
 
 	/* Extract data */
-	inBuffer = malloc(width * height * 4);
+	inBuffer = (uint8_t *)malloc(width * height * 4);
 
 	rowPointers = png_get_rows(png, info);
 	for (i = 0; i < height; i++) {
@@ -96,9 +96,9 @@ int main(int argc, char **argv) {
 
 
 	/* CONVERT IT! */
-	outBuffer = malloc(width * scaleFactor * height * scaleFactor * 4);
+	outBuffer = (uint8_t *)malloc(width * scaleFactor * height * scaleFactor * 4);
 
-	xbrData = malloc(sizeof(xbr_data));
+	xbrData = (xbr_data *)malloc(sizeof(xbr_data));
 	xbr_init_data(xbrData);
 
 	xbrParams.data = xbrData;
@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
 	png_init_io(png, fp);
 	png_set_IHDR(png, info, width*scaleFactor, height*scaleFactor, 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
-	rowPointers = malloc(sizeof(png_bytep) * height * scaleFactor);
+	rowPointers = (png_bytep *)malloc(sizeof(png_bytep) * height * scaleFactor);
 	for (i = 0; i < (height * scaleFactor); i++) {
 		rowPointers[i] = outBuffer + (i * width * scaleFactor * 4);
 	}
